@@ -1,0 +1,68 @@
+
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+  <meta charset="UTF-8">
+  <title>گردونه اِفی</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      padding: 40px;
+      background: linear-gradient(135deg, #ffe6e6, #ffe);
+    }
+    h1 {
+      color: #cc0066;
+    }
+    #wheel {
+      width: 300px;
+      height: 300px;
+      border: 10px solid #cc0066;
+      border-radius: 50%;
+      margin: 20px auto;
+      position: relative;
+    }
+    #spin {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 18px;
+      background-color: #cc0066;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+    #result {
+      margin-top: 30px;
+      font-size: 20px;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <h1>گردونه اِفی 🎉</h1>
+  <div id="wheel">
+    <!-- فقط ظاهر دایره‌ای گردونه -->
+  </div>
+  <button id="spin">بچرخون!</button>
+  <div id="result"></div>
+
+  <script>
+    // ✅ لیست جوایز قابل تغییر توسط کاربر
+    let prizes = ["ارسال رایگان", "۵۰٪ تخفیف", "۱۰٪ تخفیف", "محصول رایگان", "هیچی 😅", "کد خرید بعدی"];
+
+    // ✅ بررسی استفاده قبلی از گردونه با کوکی ساده
+    if (localStorage.getItem("spun") === "yes") {
+      document.getElementById("spin").disabled = true;
+      document.getElementById("result").innerText = "شما قبلاً گردونه رو چرخوندین 🙂";
+    }
+
+    document.getElementById("spin").addEventListener("click", () => {
+      let prize = prizes[Math.floor(Math.random() * prizes.length)];
+      document.getElementById("result").innerText = "🎁 جایزه شما: " + prize;
+      localStorage.setItem("spun", "yes"); // جلوگیری از دوباره چرخوندن
+      document.getElementById("spin").disabled = true;
+    });
+  </script>
+</body>
+</html>
