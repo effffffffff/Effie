@@ -1,0 +1,98 @@
+
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+  <meta charset="UTF-8">
+  <title>گردونه شانس دمو</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      background: #fff7f0;
+      direction: rtl;
+    }
+    #wheel {
+      width: 300px;
+      height: 300px;
+      border: 10px solid #ff6f61;
+      border-radius: 50%;
+      margin: 30px auto;
+      position: relative;
+    }
+    .segment {
+      width: 50%;
+      height: 50%;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform-origin: 0% 0%;
+      background: #ffccbc;
+      clip-path: polygon(0 0, 100% 0, 0 100%);
+      text-align: right;
+      padding: 10px;
+      font-size: 14px;
+      font-weight: bold;
+      color: #3e2723;
+    }
+    #spin {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 18px;
+      background: #ff6f61;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+    #result {
+      margin-top: 20px;
+      font-size: 20px;
+      font-weight: bold;
+      color: #d84315;
+    }
+  </style>
+</head>
+<body>
+
+<h2>🎉 گردونه شانس (نسخه آزمایشی)</h2>
+<div id="wheel"></div>
+<button id="spin">بچرخون!</button>
+<div id="result"></div>
+
+<script>
+  const prizes = ["🎁 کد تخفیف ۳۰٪", "🚚 ارسال رایگان", "❌ هیچی نبردی 😅", "🎉 جایزه ویژه", "💸 ۵۰ هزارتومن تخفیف", "📦 محصول هدیه"];
+  const wheel = document.getElementById("wheel");
+  const result = document.getElementById("result");
+  const btn = document.getElementById("spin");
+
+  // ساختن بخش‌های گردونه
+  for (let i = 0; i < prizes.length; i++) {
+    const seg = document.createElement("div");
+    seg.className = "segment";
+    seg.style.transform = `rotate(${i * (360 / prizes.length)}deg) skewY(-${90 - (360 / prizes.length)}deg)`;
+    seg.innerHTML = prizes[i];
+    wheel.appendChild(seg);
+  }
+
+  // فقط یکبار چرخش با LocalStorage
+  if (localStorage.getItem("spun") === "true") {
+    btn.disabled = true;
+    result.innerText = "شما قبلاً گردونه رو چرخوندید!";
+  }
+
+  btn.onclick = function () {
+    if (localStorage.getItem("spun") === "true") return;
+    const randomIndex = Math.floor(Math.random() * prizes.length);
+    const selected = prizes[randomIndex];
+    wheel.style.transition = "transform 4s ease-out";
+    wheel.style.transform = `rotate(${(360 * 5) + (360 - randomIndex * (360 / prizes.length))}deg)`;
+    setTimeout(() => {
+      result.innerText = `🏆 جایزه شما: ${selected}`;
+    }, 4000);
+    localStorage.setItem("spun", "true");
+    btn.disabled = true;
+  }
+</script>
+
+</body>
+</html>
